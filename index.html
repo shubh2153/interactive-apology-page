@@ -2,466 +2,284 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I'm Really Sorry ❤️</title>
+    <!-- Added max-scale and user-scalable=no to prevent the "rapid tap zoom" glitch on mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>I'm Really Sorry MISU ❤️</title>
+    <!-- Canvas Confetti Library for Master-Level Celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
+        :root {
+            --bg-color-1: #2a0845;
+            --bg-color-2: #6441A5;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Comic Sans MS', 'Comic Sans', cursive;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #ff69b4, #ff1493, #ff69b4, #e73c7e);
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
+            background: linear-gradient(135deg, var(--bg-color-1), var(--bg-color-2));
+            transition: background 1s ease;
             overflow: hidden;
             position: relative;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Ambient glowing orbs in background */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: float 10s infinite ease-in-out alternate;
+            z-index: 0;
+        }
+        .orb-1 { width: 300px; height: 300px; background: #ff69b4; top: -50px; left: -50px; }
+        .orb-2 { width: 400px; height: 400px; background: #e73c7e; bottom: -100px; right: -50px; animation-delay: -5s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.2); }
         }
 
-        .bg-heart {
-            position: fixed;
-            font-size: 2em;
-            opacity: 0.15;
-            animation: floatAround 15s ease-in-out infinite;
-            pointer-events: none;
-            color: #fff;
-        }
-
-        @keyframes floatAround {
-            0%, 100% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-            25% {
-                transform: translate(100px, -100px) rotate(90deg);
-            }
-            50% {
-                transform: translate(200px, 50px) rotate(180deg);
-            }
-            75% {
-                transform: translate(-50px, -50px) rotate(270deg);
-            }
-        }
-
+        /* Glassmorphism Container */
         .container {
             text-align: center;
-            padding: 50px 40px;
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 35px;
-            box-shadow: 0 25px 70px rgba(255, 105, 180, 0.5);
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
             max-width: 650px;
             width: 90%;
-            animation: floatIn 1s ease-out;
-            border: 3px solid rgba(255, 105, 180, 0.3);
-            position: relative;
             z-index: 10;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            /* Added fixes for small screens to prevent the buttons from getting cut off */
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-        @keyframes floatIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+        @keyframes slideUp {
+            to { transform: translateY(0); opacity: 1; }
         }
 
         #mainText {
-            font-size: 2.8em;
-            color: #e73c7e;
-            margin-bottom: 50px;
-            font-weight: bold;
-            text-shadow: 3px 3px 6px rgba(255, 105, 180, 0.3);
-            animation: pulse 2s ease-in-out infinite;
+            font-size: 2em;
+            color: #ffffff;
+            margin-bottom: 30px;
+            font-weight: 600;
+            line-height: 1.3;
+            min-height: 180px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .personal-message {
+            font-size: 0.55em;
             line-height: 1.5;
-        }
-
-        @media (max-width: 768px) {
-            #mainText {
-                font-size: 2em;
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
+            display: block;
+            margin-top: 15px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.95);
         }
 
         .buttons {
             display: flex;
-            gap: 25px;
+            gap: 15px;
             justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-            min-height: 200px;
             align-items: center;
             position: relative;
-            padding: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .buttons {
-                min-height: 350px;
-                flex-direction: column;
-            }
+            min-height: 120px;
         }
 
         button {
-            font-family: 'Comic Sans MS', 'Comic Sans', cursive;
-            font-size: 1.4em;
-            padding: 20px 40px;
+            font-size: 1.1em;
+            padding: 15px 30px;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            position: relative;
-        }
-
-        @media (max-width: 768px) {
-            button {
-                font-size: 1.2em;
-                padding: 16px 30px;
-            }
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: white;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
         }
 
         #yesBtn {
-            background: linear-gradient(135deg, #ff69b4, #ff1493);
-            color: white;
+            background: linear-gradient(135deg, #00C9FF 0%, #92FE9D 100%);
             position: relative;
             z-index: 5;
         }
 
         #yesBtn:hover {
-            transform: translateY(-8px) scale(1.1);
-            box-shadow: 0 15px 40px rgba(255, 20, 147, 0.5);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 25px rgba(146, 254, 157, 0.4);
         }
 
         #noBtn {
-            background: linear-gradient(135deg, #ffb6c1, #ff69b4);
-            color: #fff;
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
             position: absolute;
-            transition: all 0.15s ease-out;
             z-index: 10;
         }
 
-        #noBtn:hover {
-            transform: scale(1.05);
-        }
-
-        button:active {
-            transform: translateY(-2px) scale(1.02);
-        }
-
-        #emojiContainer {
-            font-size: 3.5em;
-            margin-top: 30px;
-            animation: bounce 1s ease infinite;
-            letter-spacing: 10px;
-        }
-
-        @media (max-width: 768px) {
-            #emojiContainer {
-                font-size: 2.5em;
-                letter-spacing: 5px;
-            }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-25px); }
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .heart {
-            position: fixed;
-            font-size: 2.5em;
-            animation: floatUp 4s ease-in-out;
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        @keyframes floatUp {
-            0% {
-                opacity: 1;
-                transform: translateY(0) rotate(0deg);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-1000px) rotate(360deg);
-            }
-        }
-
-        .shake {
-            animation: shake 0.5s;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px) rotate(-5deg); }
-            75% { transform: translateX(10px) rotate(5deg); }
-        }
-
         #clickCount {
-            margin-top: 20px;
-            font-size: 1.1em;
-            color: #e73c7e;
-            font-weight: bold;
-            min-height: 30px;
+            margin-top: 25px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+            height: 24px;
         }
 
-        @media (max-width: 768px) {
-            #clickCount {
-                font-size: 1em;
-            }
+        .cursor::after {
+            content: '|';
+            animation: blink 1s step-start infinite;
         }
-
-        .sparkle {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: sparkleAnim 1s ease-out forwards;
-            z-index: 999;
-        }
-
-        @keyframes sparkleAnim {
-            0% {
-                opacity: 1;
-                transform: scale(0);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(0);
-            }
-        }
+        @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
-    <!-- Background floating hearts -->
-    <div class="bg-heart" style="top: 10%; left: 10%; animation-delay: 0s;">❤️</div>
-    <div class="bg-heart" style="top: 70%; left: 80%; animation-delay: 2s;">💖</div>
-    <div class="bg-heart" style="top: 30%; left: 85%; animation-delay: 4s;">💕</div>
-    <div class="bg-heart" style="top: 60%; left: 15%; animation-delay: 6s;">💗</div>
-    <div class="bg-heart" style="top: 20%; left: 50%; animation-delay: 8s;">💝</div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 
-    <div class="container">
-        <div id="mainText">I'm really sorry ❤️<br>Please forgive me 🥺</div>
-        <div class="buttons">
-            <button id="yesBtn">Okay baby, I forgive you 💖</button>
+    <div class="container" id="card">
+        <div id="mainText">
+            MISU, I have really messed up... 😔
+            <span class="personal-message">
+                and I know ke last 1 week thi mara lidhu tu buv roi pan che. I own up to my mistakes and I feel really bad ke hu Rajkot pan nathi at this time when you need me the most and want my hugs.<br><br>
+                Please give your SHUBH another chance so he can win you back with his actions, not words this time. ❤️
+            </span>
+        </div>
+        <div class="buttons" id="btnContainer">
+            <button id="yesBtn">Okay Shubh, I forgive you 💖</button>
             <button id="noBtn">No, I'm still angry 😠</button>
         </div>
         <div id="clickCount"></div>
-        <div id="emojiContainer" class="hidden"></div>
     </div>
 
     <script>
         const mainText = document.getElementById('mainText');
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
-        const emojiContainer = document.getElementById('emojiContainer');
         const clickCount = document.getElementById('clickCount');
-        const buttonsContainer = document.querySelector('.buttons');
+        const btnContainer = document.getElementById('btnContainer');
+
+        const initialMessage = `MISU, I have really messed up... 😔
+            <span class="personal-message">
+                and I know ke last 1 week thi mara lidhu tu buv roi pan che. I own up to my mistakes and I feel really bad ke hu Rajkot pan nathi at this time when you need me the most and want my hugs.<br><br>
+                Please give your SHUBH another chance so he can win you back with his actions, not words this time. ❤️
+            </span>`;
 
         const sorryMessages = [
-            "I'm really sorry ❤️<br>Please forgive me 🥺",
-            "I promise I'll never do it again 😢💕",
-            "You mean the world to me 🌍💖",
-            "I can't stop thinking about how sorry I am 😭",
-            "Please give me another chance 🙏❤️",
-            "I'll do anything to make it up to you 💝",
-            "You're the most important person to me 🥰",
-            "I messed up, but I love you so much 💕😔",
-            "Life isn't the same without your smile 😢💖",
-            "I promise to be better for you 🌟❤️",
-            "Forgive me please? I'll buy you ice cream 🍦💕",
-            "I'm so so so sorry baby 😭❤️",
-            "You deserve the world and I'll give it to you 🌹💖",
-            "Pretty please with a cherry on top? 🍒🥺",
-            "I'll never let you down again, I promise 💍❤️"
+            initialMessage,
+            "I really mean it MISU, no more just words! 🥺",
+            "I promise to order Paneer Tikka Masala and Dal Makhani for you 🥺",
+            "I'll pause all my work right now and give you 100% of my attention 💻❤️",
+            "Please MISU... your Shubh is really sorry! 😭",
+            "I feel so bad that I'm not in Rajkot right now to hug you 🥺",
+            "Forgive me and I'll get us La Pino'z Pizza with extra cheesy garlic bread 🍕",
+            "You mean more to me than anything else 🎓💖",
+            "I'll prove it to you with my actions, I promise 💍❤️"
         ];
 
         let currentMessageIndex = 0;
         let noClickCount = 0;
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        let isTyping = false;
 
-        function createSparkle(x, y) {
-            for (let i = 0; i < 5; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle';
-                sparkle.style.left = x + (Math.random() - 0.5) * 50 + 'px';
-                sparkle.style.top = y + (Math.random() - 0.5) * 50 + 'px';
-                document.body.appendChild(sparkle);
-                setTimeout(() => sparkle.remove(), 1000);
-            }
-        }
-
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.textContent = ['❤️', '💖', '💕', '💗', '💝', '🥰', '😍'][Math.floor(Math.random() * 7)];
-            heart.style.left = Math.random() * window.innerWidth + 'px';
-            heart.style.top = window.innerHeight + 'px';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 4000);
+        async function typeWriter(text) {
+            isTyping = true;
+            mainText.innerHTML = '';
+            mainText.classList.add('cursor');
+            
+            mainText.innerHTML = text;
+            
+            mainText.style.opacity = 0;
+            await new Promise(r => setTimeout(r, 100));
+            mainText.style.transition = 'opacity 0.5s ease';
+            mainText.style.opacity = 1;
+            
+            setTimeout(() => mainText.classList.remove('cursor'), 1000);
+            isTyping = false;
         }
 
         function moveNoButton() {
-            const rect = buttonsContainer.getBoundingClientRect();
+            const rect = btnContainer.getBoundingClientRect();
             const btnRect = noBtn.getBoundingClientRect();
-            const yesRect = yesBtn.getBoundingClientRect();
-            const maxX = rect.width - btnRect.width - 20;
-            const maxY = rect.height - btnRect.height - 20;
             
-            let newX, newY;
-            let attempts = 0;
-            const maxAttempts = 50;
+            const maxX = rect.width - btnRect.width;
+            const maxY = rect.height - btnRect.height;
             
-            // Keep trying until we find a position that doesn't overlap with Yes button
-            do {
-                newX = Math.random() * maxX + 10;
-                newY = Math.random() * maxY + 10;
-                attempts++;
-                
-                // Calculate if the new position would overlap with Yes button
-                const noLeft = rect.left + newX;
-                const noRight = noLeft + btnRect.width;
-                const noTop = rect.top + newY;
-                const noBottom = noTop + btnRect.height;
-                
-                const yesLeft = yesRect.left;
-                const yesRight = yesRect.right;
-                const yesTop = yesRect.top;
-                const yesBottom = yesRect.bottom;
-                
-                // Add padding to keep buttons well separated
-                const padding = 30;
-                
-                // Check if positions overlap
-                const overlaps = !(
-                    noRight + padding < yesLeft ||
-                    noLeft - padding > yesRight ||
-                    noBottom + padding < yesTop ||
-                    noTop - padding > yesBottom
-                );
-                
-                if (!overlaps || attempts >= maxAttempts) {
-                    break;
-                }
-            } while (true);
+            const randomX = Math.max(0, Math.random() * maxX);
+            const randomY = Math.max(0, Math.random() * (maxY + 100)) - 50;
+
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
             
-            noBtn.style.left = newX + 'px';
-            noBtn.style.top = newY + 'px';
-            
-            createSparkle(btnRect.left + btnRect.width/2, btnRect.top + btnRect.height/2);
-            
-            // Shrink the button each time it moves
             noClickCount++;
-            const newScale = Math.max(0.3, 1 - (noClickCount * 0.1));
-            noBtn.style.transform = `scale(${newScale})`;
-        }
-
-        function initNoButton() {
-            const isMobileView = window.innerWidth <= 768;
-            noBtn.style.left = isMobileView ? '50%' : '70%';
-            noBtn.style.top = isMobileView ? '70%' : '50%';
-            noBtn.style.transform = 'translate(-50%, -50%) scale(1)';
-            noClickCount = 0;
-        }
-
-        initNoButton();
-        window.addEventListener('resize', initNoButton);
-
-        // Desktop only: Move on hover
-        if (!isMobile) {
-            noBtn.addEventListener('mouseenter', function() {
-                moveNoButton();
-                // Change message immediately
-                currentMessageIndex = (currentMessageIndex + 1) % sorryMessages.length;
-                mainText.innerHTML = sorryMessages[currentMessageIndex];
-                mainText.classList.add('shake');
-                setTimeout(() => mainText.classList.remove('shake'), 500);
-                
-                if (noClickCount <= 5) {
-                    clickCount.innerHTML = `Come on... just click YES! 🥺 (Attempts: ${noClickCount})`;
-                } else if (noClickCount <= 10) {
-                    clickCount.innerHTML = `Please baby! I'm begging you! 😭 (Attempts: ${noClickCount})`;
-                } else {
-                    clickCount.innerHTML = `I can do this all day! 💪❤️ (Attempts: ${noClickCount})`;
-                }
-                
-                createHeart();
-            });
-        }
-
-        // Mobile: Move on click and change message immediately
-        noBtn.addEventListener('click', function(e) {
-            e.preventDefault();
             
-            moveNoButton();
-            
-            // Change message immediately
+            const warmth = Math.min(100, noClickCount * 10);
+            document.documentElement.style.setProperty('--bg-color-1', `color-mix(in srgb, #2a0845, #ff1493 ${warmth}%)`);
+            document.documentElement.style.setProperty('--bg-color-2', `color-mix(in srgb, #6441A5, #ff69b4 ${warmth}%)`);
+
+            noBtn.style.transform = `scale(${Math.max(0.4, 1 - (noClickCount * 0.08))})`;
+            yesBtn.style.transform = `scale(${Math.min(1.5, 1 + (noClickCount * 0.05))})`;
+
             currentMessageIndex = (currentMessageIndex + 1) % sorryMessages.length;
-            mainText.innerHTML = sorryMessages[currentMessageIndex];
+            if(!isTyping) typeWriter(sorryMessages[currentMessageIndex]);
+
+            if (noClickCount <= 3) clickCount.innerText = "Come on MISU... just click YES! 🥺";
+            else if (noClickCount <= 7) clickCount.innerText = "You're really making me work for this! 😭";
+            else clickCount.innerText = "I can do this all day! I love you! 💪❤️";
+        }
+
+        noBtn.style.left = '60%';
+        
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        yesBtn.addEventListener('click', () => {
+            document.documentElement.style.setProperty('--bg-color-1', '#ffb5e8');
+            document.documentElement.style.setProperty('--bg-color-2', '#ff9ce5');
             
-            mainText.classList.add('shake');
-            setTimeout(() => mainText.classList.remove('shake'), 500);
+            btnContainer.style.display = 'none';
+            clickCount.style.display = 'none';
+            typeWriter("Yay! You forgave me! 😍💖🥳<br><span class='personal-message' style='font-size: 0.6em;'>I am holding myself to those promises. Actions, not words.</span>");
+            
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
 
-            if (noClickCount <= 5) {
-                clickCount.innerHTML = `Come on... just click YES! 🥺 (Attempts: ${noClickCount})`;
-            } else if (noClickCount <= 10) {
-                clickCount.innerHTML = `Please baby! I'm begging you! 😭 (Attempts: ${noClickCount})`;
-            } else {
-                clickCount.innerHTML = `I can do this all day! 💪❤️ (Attempts: ${noClickCount})`;
-            }
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff0000', '#ff69b4', '#ffffff']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff0000', '#ff69b4', '#ffffff']
+                });
 
-            createHeart();
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
         });
-
-        // Handle Yes button click
-        yesBtn.addEventListener('click', function() {
-            mainText.innerHTML = "Yay! You forgave me! 😍💖🥳";
-            emojiContainer.innerHTML = "😊❤️💃🎉✨🥰💕🌟🎊💖🌹😘";
-            emojiContainer.classList.remove('hidden');
-            clickCount.innerHTML = "I LOVE YOU SO MUCH! ❤️❤️❤️";
-            buttonsContainer.style.display = 'none';
-
-            for (let i = 0; i < 30; i++) {
-                setTimeout(() => createHeart(), i * 150);
-            }
-
-            document.body.style.background = 'linear-gradient(-45deg, #ff69b4, #ff1493, #ff69b4, #ffc0cb, #ff69b4, #ff1493)';
-        });
-
-        // Make Yes button grow bigger as No attempts increase
-        setInterval(() => {
-            if (noClickCount > 3 && buttonsContainer.style.display !== 'none') {
-                yesBtn.style.transform = `translateY(-8px) scale(${1.1 + (noClickCount * 0.05)})`;
-            }
-        }, 100);
     </script>
 </body>
 </html>
